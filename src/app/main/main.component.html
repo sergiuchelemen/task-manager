@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Simple To-Do List</title>
+    <link rel="stylesheet" href="main.component.css">
+</head>
+
+<body>
+    <div class="container">
+        <div cdkDropListGroup class="list-container">
+
+            <!-- To Do Column -->
+            <div class="column">
+                <h3>To do</h3>
+                <div cdkDropList [cdkDropListData]="toDoTasks"
+                    [cdkDropListConnectedTo]="['inProgressTasks', 'completedTasks']" (cdkDropListDropped)="drop($event)"
+                    class="task-list">
+                    <div *ngFor="let task of toDoTasks;" cdkDrag class="task-card">
+                        {{ task.name }}
+                    </div>
+                    <input type="text" (keydown.enter)="addTask('todo')" [(ngModel)]="toDoTask" placeholder="Add task">
+                </div>
+            </div>
+
+            <!-- In Progress Column -->
+            <div class="column">
+                <h3>In progress</h3>
+                <div cdkDropList [cdkDropListData]="inProgressTasks"
+                    [cdkDropListConnectedTo]="['toDoTasks', 'completedTasks']" (cdkDropListDropped)="drop($event)"
+                    class="task-list">
+                    <div *ngFor="let task of inProgressTasks" cdkDrag class="task-card">
+                        {{ task.name }}
+                    </div>
+                    <input type="text" (keydown.enter)="addTask('inProgress')" [(ngModel)]="inProgressTask"
+                        placeholder="Add task">
+                </div>
+            </div>
+
+            <!-- Completed Column -->
+            <div class="column">
+                <h3>Completed</h3>
+                <div cdkDropList [cdkDropListData]="completedTasks"
+                    [cdkDropListConnectedTo]="['toDoTasks', 'inProgressTasks']" (cdkDropListDropped)="drop($event)"
+                    class="task-list">
+                    <div *ngFor="let task of completedTasks" cdkDrag class="task-card">
+                        {{ task.name }}
+                    </div>
+                    <input type="text" (keydown.enter)="addTask('completed')" [(ngModel)]="completedTask"
+                        placeholder="Add task">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
